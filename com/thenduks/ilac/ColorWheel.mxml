@@ -124,11 +124,15 @@
       var y:Number = _y - radius;
       return Math.sqrt( x * x + y * y ) < radius;
     }
+    
+    private function colorWheelHolderWidth():Number {
+      return this.width - colorWheelHolder.x - colorWheelHolder.y -
+             (this.getStyle('borderThickness') * 2);
+    }
   ]]></mx:Script>
   
-  <mx:Canvas  id="colorWheelHolder" resize="draw();"
-              x="5" y="5"
-              width="134" height="{colorWheelHolder.width}" />
+  <mx:Canvas  id="colorWheelHolder" resize="draw();" x="5" y="5"
+              width="{colorWheelHolderWidth()}" height="{colorWheelHolder.width}" />
 
   <mx:HSlider id="saturationSlider" minimum="0" maximum="2" snapInterval="0.01"
               x="5" y="{colorWheelHolder.height}" showDataTip="false"

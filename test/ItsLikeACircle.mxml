@@ -18,5 +18,5 @@
     <mx:Label width="50%" textAlign="right" text="Color: " />
     <mx:Label id="hex" width="50%" color="white" text="" />
   </mx:HBox>
-  <ilac:ColorWheel id="colorWheel" />
+  <ilac:ColorWheel width="250" id="colorWheel" />
 </mx:Application>
