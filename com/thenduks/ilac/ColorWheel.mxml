@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+// ColorWheel.mxml
+//  Ryan Funduk | http://ryanfunduk.com
+// 
+// Released under MIT License
+// http://www.opensource.org/licenses/mit-license.php
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+           backgroundColor="#DDDDDD" x='0' y='0' width="150" cornerRadius="6"
+           horizontalScrollPolicy="off" verticalScrollPolicy="off"
+           borderStyle="solid" borderThickness="3" borderColor="#CCCCCC"
+           creationComplete="init()">
+  
+  <mx:Script><![CDATA[
+    import mx.events.ColorPickerEvent;
+    import mx.controls.TextInput;
+    import flash.geom.Point;
+    
+    private var colorWheel:Wheel;
+    private var bmd:BitmapData;
+    private var cm:ColorMatrix;
+    private var radius:Number;
+    
+    public function position( pos:Point ):void {
+      x = pos.x;
+      y = pos.y;
+    }
+    
+    private function draw():void {
+      if( !colorWheel ) { return; }
+      radius = colorWheelHolder.width / 2;
+      colorWheel.graphics.clear();
+      colorWheel.draw( radius )
+      bmd = new BitmapData( colorWheel.width, colorWheel.height );
+      bmd.draw( colorWheel );
+    }
+    
+    private function init():void {
+      colorWheel = new Wheel();
+      colorWheelHolder.rawChildren.addChild( colorWheel );
+      draw();
+      addEventListener( MouseEvent.ROLL_OUT, function( e:MouseEvent ):void {
+        dispatchEvent( new Event( 'close' ) );
+      } );
+      colorWheel.addEventListener( MouseEvent.MOUSE_DOWN, mouseHandler );
+      colorWheel.addEventListener( MouseEvent.MOUSE_MOVE, mouseHandler );
+      setFilters();
+    }
+    
+    private function mouseHandler( event:MouseEvent ):void {
+      if( !event.buttonDown ) { return; }
+      colorPointer.visible = true;
+      var x:Number = event.localX + 2; // dont
+      var y:Number = event.localY; // ask
+      getColor( x, y );
+      colorPointer.move( x + colorPointer.width / 2, 
+                         y + colorPointer.height / 2 );
+    }
+    
+    private function getColor( x:Number, y:Number ):void {
+      var color:Number = bmd.getPixel( x, y );
+      if( !atArea( x, y ) ) { return; }
+      cm = new ColorMatrix();
+      cm.colorize( color );
+      cm.adjustSaturation( saturationSlider.value );
+      cm.adjustBrightness( brightnessSlider.value );
+      dispatchEvent( new ColorPickerEvent( 'change', false, false, -1, color ) );
+    }
+    
+    private function saturation():void {
+      var c:ColorMatrix = new ColorMatrix();
+      c.adjustSaturation( saturationSlider.value );
+      colorWheel.filters = [c.filter];
+      bmd = new BitmapData( colorWheel.width, colorWheel.height );
+      bmd.draw( colorWheel );
+      getColor( colorPointer.x, colorPointer.y );
+    }
+    
+    private function brightness():void {
+      var c:ColorMatrix = new ColorMatrix();
+      c.adjustBrightness( brightnessSlider.value );
+      colorWheel.filters = [c.filter];
+      bmd = new BitmapData( colorWheel.width, colorWheel.height );
+      bmd.draw( colorWheel );
+      getColor( colorPointer.x, colorPointer.y );
+    }
+    
+    private function setFilters():void {
+      var c:ColorMatrix = new ColorMatrix();
+      c.adjustSaturation( saturationSlider.value );
+      c.adjustBrightness( brightnessSlider.value );
+      colorWheel.filters = [c.filter];
+      bmd = new BitmapData( colorWheel.width, colorWheel.height );
+      bmd.draw( colorWheel );
+      getColor( colorPointer.x, colorPointer.y );
+    }
+    
+    private function atArea( _x:Number, _y:Number ):Boolean {
+      var x:Number = _x - radius;
+      var y:Number = _y - radius;
+      return Math.sqrt( x * x + y * y ) < radius;
+    }
+  ]]></mx:Script>
+  
+  <mx:Canvas  id="colorWheelHolder" resize="draw();"
+              x="5" y="5"
+              width="134" height="{colorWheelHolder.width}" />
+
+  <mx:HSlider id="saturationSlider" minimum="0" maximum="2" snapInterval="0.01"
+              x="5" y="{colorWheelHolder.height}" showDataTip="false"
+              width="{colorWheelHolder.width}" height="20" change="setFilters()"
+              liveDragging="true" tickInterval="0" value="1.25" />
+  <mx:HSlider id="brightnessSlider" minimum="-255" maximum="255" snapInterval="1"
+              x="5" y="{colorWheelHolder.height + saturationSlider.height}"
+              showDataTip="false" width="{colorWheelHolder.width}" height="30"
+              liveDragging="true" tickInterval="0" value="-30" change="setFilters()" />
+  
+  <mx:Canvas  id="colorPointer" width="4" height="4" visible='false'
+              borderStyle="solid" borderColor="#363636" mouseEnabled="false" />
+</mx:Canvas>
