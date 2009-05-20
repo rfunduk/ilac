@@ -34,11 +34,16 @@
            horizontalScrollPolicy="off" verticalScrollPolicy="off"
            borderStyle="solid" borderThickness="3" borderColor="#CCCCCC"
            creationComplete="init()">
-  
+
+  <mx:Style>
+    .ilacSlider { thumbSkin: Embed(source="skins/empty.gif"); }
+  </mx:Style>
+
   <mx:Script><![CDATA[
     import mx.events.ColorPickerEvent;
     import mx.controls.TextInput;
     import flash.geom.Point;
+    import com.thenduks.ilac.skins.*;
     
     private var colorWheel:Wheel;
     private var bmd:BitmapData;
@@ -134,14 +139,27 @@
   <mx:Canvas  id="colorWheelHolder" resize="draw();" x="5" y="5"
               width="{colorWheelHolderWidth()}" height="{colorWheelHolder.width}" />
 
-  <mx:HSlider id="saturationSlider" minimum="0" maximum="2" snapInterval="0.01"
-              x="5" y="{colorWheelHolder.height}" showDataTip="false"
-              width="{colorWheelHolder.width}" height="20" change="setFilters()"
-              liveDragging="true" tickInterval="0" value="1.25" />
-  <mx:HSlider id="brightnessSlider" minimum="-255" maximum="255" snapInterval="1"
+  <mx:HSlider id="saturationSlider"
+              minimum="0" maximum="2" snapInterval="0.01" tickInterval="0"
               x="5" y="{colorWheelHolder.height + saturationSlider.height}"
-              showDataTip="false" width="{colorWheelHolder.width}" height="30"
-              liveDragging="true" tickInterval="0" value="-30" change="setFilters()" />
+              showDataTip="false" liveDragging="true"
+              width="{colorWheelHolder.width}" height="20"
+              change="setFilters()"
+              styleName="ilacSlider"
+              trackSkin="{HSliderSaturationSkin}"
+              sliderThumbClass="{SliderThumbSkin}"
+              creationComplete="{saturationSlider.value=1.25}" />
+
+  <mx:HSlider id="brightnessSlider"
+              minimum="-255" maximum="255" snapInterval="1" tickInterval="0"
+              x="5" y="{colorWheelHolder.height + (saturationSlider.height * 2)}"
+              showDataTip="false" liveDragging="true"
+              width="{colorWheelHolder.width}" height="30"
+              change="setFilters()"
+              styleName="ilacSlider"
+              trackSkin="{HSliderBrightnessSkin}"
+              sliderThumbClass="{SliderThumbSkin}"
+              creationComplete="{brightnessSlider.value=-30}" />
   
   <mx:Canvas  id="colorPointer" width="4" height="4" visible='false'
               borderStyle="solid" borderColor="#363636" mouseEnabled="false" />
