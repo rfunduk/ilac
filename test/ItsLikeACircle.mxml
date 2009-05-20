@@ -10,13 +10,17 @@
       colorWheel.addEventListener( 'change', function( e:ColorPickerEvent ):void {
         var colorString:String = e.color.toString( 16 ).toUpperCase();
         hex.text = '#' + ( "000000" + colorString ).substr( -6 );
+        swatch.setStyle( 'backgroundColor', hex.text );
       } );
     }
   ]]></mx:Script>
   
   <mx:HBox width="100%" horizontalGap='0'>
-    <mx:Label width="50%" textAlign="right" text="Color: " />
-    <mx:Label id="hex" width="50%" color="white" text="" />
+    <mx:Label width="45%" textAlign="right" text="Color: " />
+    <mx:Canvas id="swatch" width="10%" height="{hex.height}"
+               borderThickness="1" borderStyle="solid"
+               backgroundColor="#FFFFFF" borderColor="#777777" />
+    <mx:Label id="hex" width="45%" color="white" text="" />
   </mx:HBox>
   <ilac:ColorWheel width="250" id="colorWheel" />
 </mx:Application>
