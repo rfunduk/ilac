@@ -40,6 +40,7 @@
   </mx:Style>
 
   <mx:Script><![CDATA[
+    import mx.styles.StyleManager;
     import mx.events.ColorPickerEvent;
     import mx.controls.TextInput;
     import flash.geom.Point;
@@ -49,6 +50,8 @@
     private var bmd:BitmapData;
     private var cm:ColorMatrix;
     private var radius:Number;
+
+    public var currentColor:Number;
     
     public function position( pos:Point ):void {
       x = pos.x;
@@ -84,6 +87,8 @@
       getColor( x, y );
       colorPointer.move( x + colorPointer.width / 2, 
                          y + colorPointer.height / 2 );
+
+      updateSaturationSlider();
     }
     
     private function getColor( x:Number, y:Number ):void {
@@ -91,9 +96,23 @@
       if( !atArea( x, y ) ) { return; }
       cm = new ColorMatrix();
       cm.colorize( color );
+      currentColor = color;
       cm.adjustSaturation( saturationSlider.value );
       cm.adjustBrightness( brightnessSlider.value );
       dispatchEvent( new ColorPickerEvent( 'change', false, false, -1, color ) );
+    }
+
+    private function updateSaturationSlider():void {
+      var color:Number = currentColor;
+      var fillColors:String = saturationSlider.getStyle( 'fillColors' );
+      fillColors = fillColors.slice( 1, fillColors.length );
+      var colorArray:Array = fillColors.split( ',' );
+      colorArray = [ parseInt( colorArray[0], 10 ), parseInt( colorArray[1], 10 ) ];
+
+      saturationSlider.setStyle( 'fillColors', '[' + colorArray[0] + ',' +
+                                                     currentColor + ']' );
+      trace( 'updated to ' +  '[' + colorArray[0] + ',' +
+                                    currentColor + ']' );
     }
     
     private function saturation():void {
@@ -146,6 +165,7 @@
               width="{colorWheelHolder.width}" height="20"
               change="setFilters()"
               styleName="ilacSlider"
+              fillColors="[0xAAAAAA, 0xEEEEEE]"
               trackSkin="{HSliderSaturationSkin}"
               sliderThumbClass="{SliderThumbSkin}"
               creationComplete="{saturationSlider.value=1.25}" />
@@ -157,6 +177,7 @@
               width="{colorWheelHolder.width}" height="30"
               change="setFilters()"
               styleName="ilacSlider"
+              fillColors="[0x000000, 0xFFFFFF]"
               trackSkin="{HSliderBrightnessSkin}"
               sliderThumbClass="{SliderThumbSkin}"
               creationComplete="{brightnessSlider.value=-30}" />
