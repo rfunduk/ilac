@@ -28,7 +28,7 @@ function ControlVersion()
 			
 			// installed player is some revision of 6.0
 			// GetVariable("$version") crashes for versions 6.0.22 through 6.0.29,
-			// so we have to be careful. 
+			// so we have to be careful.
 			
 			// default to the first public version
 			version = "WIN 6,0,21,0";
@@ -163,7 +163,7 @@ function AC_AddExtension(src, ext)
     if (path.length >= ext.length && path.lastIndexOf(ext) == (path.length - ext.length))
       return src;
     else
-      return src.replace(/\?/, ext+'?'); 
+      return src.replace(/\?/, ext+'?');
   }
   else
   {
@@ -175,8 +175,8 @@ function AC_AddExtension(src, ext)
   }
 }
 
-function AC_Generateobj(objAttrs, params, embedAttrs) 
-{ 
+function AC_Generateobj(objAttrs, params, embedAttrs)
+{
     var str = '';
     if (isIE && isWin && !isOpera)
     {
@@ -198,7 +198,7 @@ function AC_Generateobj(objAttrs, params, embedAttrs)
 }
 
 function AC_FL_RunContent(){
-  var ret = 
+  var ret =
     AC_GetArgs
     (  arguments, ".swf", "movie", "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
      , "application/x-shockwave-flash"
@@ -212,7 +212,7 @@ function AC_GetArgs(args, ext, srcParamName, classid, mimeType){
   ret.params = new Object();
   ret.objAttrs = new Object();
   for (var i=0; i < args.length; i=i+2){
-    var currArg = args[i].toLowerCase();    
+    var currArg = args[i].toLowerCase();
 
     switch (currArg){	
       case "classid":
@@ -271,7 +271,7 @@ function AC_GetArgs(args, ext, srcParamName, classid, mimeType){
       case "width":
       case "height":
       case "align":
-      case "vspace": 
+      case "vspace":
       case "hspace":
       case "class":
       case "title":

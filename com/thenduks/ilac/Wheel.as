@@ -1,8 +1,8 @@
 ﻿// ***************************************************************************
 // Wheel.as
-// 
+//
 // Copyright (c) 2007 Ryan Taylor | http://www.boostworthy.com
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -31,36 +31,33 @@ package com.thenduks.ilac {
   import flash.display.Sprite;
   import flash.events.MouseEvent;
   import flash.geom.Matrix;
-  
+
   import mx.managers.CursorManager;
-  import mx.managers.CursorManagerPriority;
-  
+
   public class Wheel extends Sprite {
     private static const DEFAULT_RADIUS:Number  = 100;
     private var cursorID:int;
-    
+
     [Embed(source="colorpicker.gif")]
     private var colorPickerIcon:Class;
-    
+
     public function Wheel() {
       createListeners();
     }
-    
+
     private function createListeners():void {
       addEventListener( MouseEvent.ROLL_OVER, setCursor );
       addEventListener( MouseEvent.ROLL_OUT, removeCursor );
     }
-    
+
     private function setCursor( event:MouseEvent ):void {
-      cursorID = CursorManager.setCursor( colorPickerIcon,
-                                          CursorManagerPriority.HIGH,
-                                          -10, -23 );
+      cursorID = CursorManager.setCursor( colorPickerIcon, 2, -8, -23 );
     }
-    
+
     private function removeCursor( event:MouseEvent ):void {
       if( cursorID ) { CursorManager.removeCursor( cursorID ); }
     }
-    
+
     public function draw( nRadius:Number = DEFAULT_RADIUS ):void {
       var nRadians:Number;
       var nR:Number; var nG:Number;  var nB:Number;
@@ -68,34 +65,34 @@ package com.thenduks.ilac {
       var nColor:Number;
       var objMatrix:Matrix;
       var iThickness:int;
-      
+
       graphics.clear();
-      
+
       iThickness = 1 + int( nRadius / 50 );
-      
-      // Loop from '0' to '360' degrees, drawing lines from the center 
+
+      // Loop from '0' to '360' degrees, drawing lines from the center
       // of the wheel outward the length of the specified radius.
       for( var i:int = 0; i < 360; i++ ) {
         // Convert the degree to radians.
         nRadians = i * ( Math.PI / 180 );
-        
-        // Calculate the RGB channels based on the angle of the line 
+
+        // Calculate the RGB channels based on the angle of the line
         // being drawn.
         nR = Math.cos( nRadians ) * 127 + 128 << 16;
         nG = Math.cos( nRadians + 2 * Math.PI / 3 ) * 127 + 128 << 8;
         nB = Math.cos( nRadians + 4 * Math.PI / 3 ) * 127 + 128;
-        
+
         // OR the individual color channels together.
         nColor = nR | nG | nB;
-        
+
         // Calculate the coordinate in which the line should be drawn to.
         nX = ( nRadius ) * Math.cos( nRadians );
         nY = ( nRadius ) * Math.sin( nRadians );
-        
+
         // Create a matrix for the lines gradient color.
         objMatrix = new Matrix();
         objMatrix.createGradientBox( nRadius * 2, nRadius * 2, nRadians, 0, 0 );
-        
+
         // Create and drawn the line.
         graphics.lineStyle( iThickness, 0, 1, false,
                             LineScaleMode.NONE, CapsStyle.NONE );

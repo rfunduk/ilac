@@ -2,10 +2,10 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
                 xmlns:ilac="com.thenduks.ilac.*"
                 creationComplete='init()'>
-  
+
   <mx:Script><![CDATA[
     import mx.events.ColorPickerEvent;
-    
+
     private function init():void {
       colorWheel.addEventListener( 'change', function( e:ColorPickerEvent ):void {
         var colorString:String = e.color.toString( 16 ).toUpperCase();
