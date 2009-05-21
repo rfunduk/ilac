@@ -11,16 +11,31 @@
         var colorString:String = e.color.toString( 16 ).toUpperCase();
         hex.text = '#' + ( "000000" + colorString ).substr( -6 );
         swatch.setStyle( 'backgroundColor', hex.text );
+        xMoveTo.text = colorWheel.selection.x.toString();
+        yMoveTo.text = colorWheel.selection.y.toString();
       } );
+    }
+
+    private function setSelection():void {
+      colorWheel.selection = new Point( parseInt( xMoveTo.text, 10 ),
+                                        parseInt( yMoveTo.text, 10 ) );
     }
   ]]></mx:Script>
   
-  <mx:HBox width="100%" horizontalGap='0'>
-    <mx:Label width="45%" textAlign="right" text="Color: " />
-    <mx:Canvas id="swatch" width="10%" height="{hex.height}"
+  <mx:HBox width="300" horizontalGap='0'>
+    <mx:Label width="140" textAlign="right" text="Color: " />
+    <mx:Canvas id="swatch" width="20" height="{hex.height}"
                borderThickness="1" borderStyle="solid"
                backgroundColor="#FFFFFF" borderColor="#777777" />
-    <mx:Label id="hex" width="45%" color="white" text="" />
+    <mx:Label id="hex" width="140" color="white" text="" />
   </mx:HBox>
+
+  <mx:HBox width="300" horizontalGap='0'>
+    <mx:Label text="Move to: " width="75" />
+    <mx:TextInput id="xMoveTo" text="0" width="75" />
+    <mx:TextInput id="yMoveTo" text="0" width="75" />
+    <mx:Button id="moveTo" width="75" label="Move" click="{setSelection()}" />
+  </mx:HBox>
+
   <ilac:ColorWheel width="250" id="colorWheel" />
 </mx:Application>

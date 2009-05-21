@@ -11,10 +11,7 @@ package com.thenduks.ilac.skins {
     override protected function updateDisplayList( w:Number, h:Number ):void {
       super.updateDisplayList( w, h );
 
-      var fillColors:String = getStyle( 'fillColors' );
-      fillColors = fillColors.slice( 1, fillColors.length );
-      var colorArray:Array = fillColors.split( ',' );
-      colorArray = [ parseInt( colorArray[0], 10 ), parseInt( colorArray[1], 10 ) ];
+      var newColors:Array = IlacUtil.stringAsArray( getStyle( 'fillColors' ) );
 
       //create 2 circle that will act like round corners
       this.graphics.beginFill( colorArray[0], 1 );

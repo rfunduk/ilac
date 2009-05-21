@@ -33,6 +33,7 @@ package com.thenduks.ilac {
   import flash.geom.Matrix;
   
   import mx.managers.CursorManager;
+  import mx.managers.CursorManagerPriority;
   
   public class Wheel extends Sprite {
     private static const DEFAULT_RADIUS:Number  = 100;
@@ -51,7 +52,9 @@ package com.thenduks.ilac {
     }
     
     private function setCursor( event:MouseEvent ):void {
-      cursorID = CursorManager.setCursor( colorPickerIcon, 2, -8, -23 );
+      cursorID = CursorManager.setCursor( colorPickerIcon,
+                                          CursorManagerPriority.HIGH,
+                                          -10, -23 );
     }
     
     private function removeCursor( event:MouseEvent ):void {

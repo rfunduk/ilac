@@ -45,6 +45,7 @@
     import mx.controls.TextInput;
     import flash.geom.Point;
     import com.thenduks.ilac.skins.*;
+    import com.thenduks.ilac.IlacUtil;
     
     private var colorWheel:Wheel;
     private var bmd:BitmapData;
@@ -57,7 +58,24 @@
       x = pos.x;
       y = pos.y;
     }
-    
+
+    public function set selection( xy:Point ):void {
+      getColor( xy.x, xy.y );
+
+      colorPointer.move( xy.x + colorPointer.width / 2,
+                         xy.y + colorPointer.height / 2 );
+      colorPointer.visible = true;
+      updateSaturationSlider();
+    }
+    public function get selection():Point {
+      if( colorPointer.visible ) {
+        return new Point( colorPointer.x, colorPointer.y );
+      }
+      else {
+        return new Point( -1, -1 );
+      }
+    }
+
     private function draw():void {
       if( !colorWheel ) { return; }
       radius = colorWheelHolder.width / 2;
@@ -82,12 +100,11 @@
     private function mouseHandler( event:MouseEvent ):void {
       if( !event.buttonDown ) { return; }
       colorPointer.visible = true;
-      var x:Number = event.localX + 2; // dont
-      var y:Number = event.localY; // ask
-      getColor( x, y );
+      var x:Number = event.localX;
+      var y:Number = event.localY;
       colorPointer.move( x + colorPointer.width / 2, 
                          y + colorPointer.height / 2 );
-
+      getColor( x, y );
       updateSaturationSlider();
     }
     
@@ -103,16 +120,12 @@
     }
 
     private function updateSaturationSlider():void {
-      var color:Number = currentColor;
-      var fillColors:String = saturationSlider.getStyle( 'fillColors' );
-      fillColors = fillColors.slice( 1, fillColors.length );
-      var colorArray:Array = fillColors.split( ',' );
-      colorArray = [ parseInt( colorArray[0], 10 ), parseInt( colorArray[1], 10 ) ];
-
-      saturationSlider.setStyle( 'fillColors', '[' + colorArray[0] + ',' +
-                                                     currentColor + ']' );
-      trace( 'updated to ' +  '[' + colorArray[0] + ',' +
-                                    currentColor + ']' );
+      var newColors:Array = IlacUtil.stringAsArray(
+        saturationSlider.getStyle( 'fillColors' )
+      );
+      saturationSlider.setStyle( 'fillColors',
+                                 '[' + newColors[0] + ',' +
+                                       currentColor + ']' );
     }
     
     private function saturation():void {
