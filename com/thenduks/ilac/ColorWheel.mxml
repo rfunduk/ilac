@@ -179,7 +179,7 @@
               change="setFilters()"
               styleName="ilacSlider"
               fillColors="[0xAAAAAA, 0xEEEEEE]"
-              trackSkin="{HSliderSaturationSkin}"
+              trackSkin="{HSliderSkin}"
               sliderThumbClass="{SliderThumbSkin}"
               creationComplete="{saturationSlider.value=1.45}" />
 
@@ -191,7 +191,7 @@
               change="setFilters()"
               styleName="ilacSlider"
               fillColors="[0x000000, 0xFFFFFF]"
-              trackSkin="{HSliderBrightnessSkin}"
+              trackSkin="{HSliderSkin}"
               sliderThumbClass="{SliderThumbSkin}"
               creationComplete="{brightnessSlider.value=-30}" />
   

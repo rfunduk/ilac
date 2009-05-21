@@ -21,7 +21,7 @@
                                         parseInt( yMoveTo.text, 10 ) );
     }
   ]]></mx:Script>
-  
+
   <mx:HBox width="300" horizontalGap='0'>
     <mx:Label width="140" textAlign="right" text="Color: " />
     <mx:Canvas id="swatch" width="20" height="{hex.height}"
