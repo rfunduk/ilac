@@ -5,9 +5,11 @@ package com.thenduks.ilac.skins {
     //public function SliderThumbSkin() {}
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
-      //super.updateDisplayList( unscaledWidth, unscaledHeight );
-      this.graphics.beginFill( 0x555555, 0.75 );
-      this.graphics.drawCircle( 6, -4, 4 );
+      super.updateDisplayList( unscaledWidth, unscaledHeight );
+      this.graphics.clear();
+      this.graphics.lineStyle( 1, 0x555555, 1.0 );
+      this.graphics.beginFill( 0xAAAAAA, 1.0 );
+      this.graphics.drawCircle( 6, -4, 8 );
       this.graphics.endFill();
     }
   }

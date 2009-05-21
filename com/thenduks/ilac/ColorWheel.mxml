@@ -159,7 +159,7 @@
               width="{colorWheelHolderWidth()}" height="{colorWheelHolder.width}" />
 
   <mx:HSlider id="saturationSlider"
-              minimum="0" maximum="2" snapInterval="0.01" tickInterval="0"
+              minimum="0" maximum="2" snapInterval="0.01"
               x="5" y="{colorWheelHolder.height + saturationSlider.height}"
               showDataTip="false" liveDragging="true"
               width="{colorWheelHolder.width}" height="20"
@@ -168,10 +168,10 @@
               fillColors="[0xAAAAAA, 0xEEEEEE]"
               trackSkin="{HSliderSaturationSkin}"
               sliderThumbClass="{SliderThumbSkin}"
-              creationComplete="{saturationSlider.value=1.25}" />
+              creationComplete="{saturationSlider.value=1.45}" />
 
   <mx:HSlider id="brightnessSlider"
-              minimum="-255" maximum="255" snapInterval="1" tickInterval="0"
+              minimum="-255" maximum="255" snapInterval="1"
               x="5" y="{colorWheelHolder.height + (saturationSlider.height * 2)}"
               showDataTip="false" liveDragging="true"
               width="{colorWheelHolder.width}" height="30"
