@@ -98,17 +98,17 @@
       bmdStatic = new BitmapData( colorWheelStatic.width,
                                   colorWheelStatic.height );
       bmdStatic.draw( colorWheelStatic );
-      
+
       colorWheel = new Wheel();
       colorWheelHolder.rawChildren.addChild( colorWheel );
       draw( colorWheel );
-      
+
       addEventListener( MouseEvent.ROLL_OUT, function( e:MouseEvent ):void {
         dispatchEvent( new Event( 'close' ) );
       } );
       colorWheel.addEventListener( MouseEvent.MOUSE_DOWN, mouseHandler );
       colorWheel.addEventListener( MouseEvent.MOUSE_MOVE, mouseHandler );
-      
+
       setFilters();
     }
 
@@ -137,11 +137,11 @@
     private function updateSaturationSlider():void {
       var rightSide:Number = bmdStatic.getPixel( colorPointer.x,
                                                  colorPointer.y );
-      
+
       var newColors:Array = IlacUtil.stringAsArray(
         saturationSlider.getStyle( 'fillColors' )
       );
-      
+
       saturationSlider.setStyle( 'fillColors',
                                  '[' + newColors[0] + ',' +
                                        rightSide + ']' );
@@ -220,3 +220,4 @@
               borderStyle="solid" borderColor="#363636"
               mouseEnabled="false" />
 </mx:Canvas>
+
